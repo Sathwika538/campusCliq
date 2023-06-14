@@ -267,14 +267,20 @@ const latestCommitSHA = commitData.commit.sha;
 
   const { path, originalname } = req.file;
   const {folder,subfolder} = req.params;
+
+  const fileContent = fs.readFileSync(path);
+
   const fileData = await octokit.rest.repos.createOrUpdateFileContents({
     owner: process.env.GITHUB_OWNER,
     repo: process.env.GITHUB_REPO_NAME,
-    path: `${folder}/${subfolder}/${encodeURIComponent(originalname)}`,
+    path: `${folder}/${subfolder}/${originalname}`,
     message: 'Add new file',
-    content: Buffer.from(path).toString('base64'),
+    content: Buffer.from(fileContent).toString('base64'),
     sha: latestCommitSHA,
   });
+
+    // Delete the temporary file
+    fs.unlinkSync(path);
 
   res.redirect(`/notes/${folder}/${subfolder}`);
 });
