@@ -1,6 +1,5 @@
 const app = require("./app.js");
 const connectDatabase = require('./database');
-const cloudinary = require('cloudinary').v2;
 //Handling Uncaught Exception          //console.log(youtube)  //youtube is not defined right,so causing an error
 process.on("uncaughtException",(err)=>{
     console.log(`Error:${err.message}`);
@@ -19,11 +18,7 @@ process.on("uncaughtException",(err)=>{
 //Connect to Database
 connectDatabase();
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key:process.env.CLOUDINARY_API_KEY,
-    api_secret:process.env.CLOUDINARY_API_SECRET,
-})
+s
 const server = app.listen(process.env.PORT,()=>{
     console.log("Server is running on port");
 }) 
