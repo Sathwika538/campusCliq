@@ -203,14 +203,15 @@ app.post('/add',isAuthenticatedUser, upload2.single('image'),async (req, res) =>
   const body = req.body.body;
   const namee = req.body.namee;
 
+ try{
   const myCloud = await cloudinary.uploader.upload(req.file.path, {
     folder:"postsPics",
-    width:150,
     transformation: [
       { quality: "auto" },
       { fetch_format: "auto" },
       { flags: "lossy" }
     ],
+    width:150,
     crop:"scale",
 })
     const post = new Post({ 
@@ -223,13 +224,14 @@ app.post('/add',isAuthenticatedUser, upload2.single('image'),async (req, res) =>
       namee:namee,
     });
    await post.save()
-    .then(() => {
       res.redirect('/blogs');
-    })
-    .catch(err => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+    
+  
+} catch(err){
+  console.error(err);
+  res.sendStatus(500);
+}
+  
 });
 
 app.post("/",getAllPosts,async (req,res,next) => {
