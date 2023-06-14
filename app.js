@@ -206,6 +206,11 @@ app.post('/add',isAuthenticatedUser, upload2.single('image'),async (req, res) =>
   const myCloud = await cloudinary.uploader.upload(req.file.path, {
     folder:"postsPics",
     width:150,
+    transformation: [
+      { quality: "auto" },
+      { fetch_format: "auto" },
+      { flags: "lossy" }
+    ],
     crop:"scale",
 })
     const post = new Post({ 
