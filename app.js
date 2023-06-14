@@ -202,8 +202,7 @@ app.post('/add',isAuthenticatedUser, upload2.single('image'),async (req, res) =>
   const title = req.body.title;
   const body = req.body.body;
   const namee = req.body.namee;
-
- try{
+try{
   const myCloud = await cloudinary.uploader.upload(req.file.path, {
     folder:"postsPics",
     transformation: [
